@@ -1,0 +1,58 @@
+# Default NAMESPACE created by R
+# Remove the previous line if you edit this file
+
+# Export all names
+exportPattern(".")
+
+# Import all packages listed as Imports or Depends
+import(
+  stats,
+  graphics,
+  utils,
+  grDevices,
+  foreign,
+  survival,
+  MASS,
+  nnet
+)
+
+# Define Methods
+S3method("aggregate", "numeric")
+S3method("aggregate", "plot")
+S3method("ci", "default")
+S3method("ci", "binomial")
+S3method("ci", "numeric")
+S3method("ci", "poisson")
+S3method("kap", "2.raters")
+S3method("kap", "ByCategory")
+S3method("kap", "default")
+S3method("kap", "m.raters")
+S3method("kap", "table")
+S3method("print", "alpha")
+S3method("print", "cci")
+S3method("print", "des")
+S3method("print", "display")
+S3method("print", "kap.ByCategory")
+S3method(print, kap.table)
+S3method(print, "lrtest")
+S3method(print, "n.for.2means")
+S3method(print, "n.for.2p")
+S3method(print, "n.for.cluster.2means")
+S3method(print, "n.for.cluster.2p")
+S3method(print, "n.for.equi.2p")
+S3method(print, "n.for.lqas")
+S3method(print, "n.for.noninferior.2p")
+S3method(print, "n.for.survey")
+S3method(print, "power.for.2means")
+S3method(print, "power.for.2p")
+S3method(print, summ.data.frame)
+S3method(print, summ.default)
+S3method(print, tab1)
+S3method(print, tableStack)
+S3method(summ, data.frame)
+S3method(summ, default)
+S3method(summ, factor)
+S3method(summ, logical)
+
+
+
