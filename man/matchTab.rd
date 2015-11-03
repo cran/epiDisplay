@@ -3,12 +3,13 @@
 \title{Matched tabulation}
 \description{Tabulation of outcome vs exposure from a matched case control study}
 \usage{
-matchTab (case, exposed, strata)
+matchTab (case, exposed, strata, decimal)
 }
 \arguments{
 	\item{case}{Outcome variables where 0 = control and 1 = case}
 	\item{exposed}{Exposure variable where 0 = non-exposed and 1 = exposed}
 	\item{strata}{Identification number for each matched set}
+	\item{decimal}{Number of digits displayed after the decimal point}
 }
 \details{Tabulation for an unmatched case control study is based on individual records classified by outcome and exposure variables.
 
@@ -32,7 +33,6 @@ ia <- induced > 0  # any induced abortion
 matchTab(case, ia, stratum)
 
 # See also
-library(survival)
 clogit(case ~ ia + strata(stratum), data=infert)
 detach(.data)
 rm(list=ls())

@@ -9,7 +9,7 @@ tableStack (vars, dataFrame, minlevel = "auto", maxlevel = "auto", count = TRUE,
     vars.to.reverse = NULL, by = NULL, vars.to.factor = NULL, iqr = "auto", 
     prevalence = FALSE, percent = c("column", "row", "none"), frequency=TRUE, 
     test = TRUE, name.test = TRUE, total.column = FALSE, simulate.p.value = FALSE,
-    sample.size=TRUE) 
+    sample.size=TRUE, assumption.p.value = .01) 
 }
 \arguments{
 	\item{vars}{a vector of variables in the data frame}
@@ -38,27 +38,37 @@ tableStack (vars, dataFrame, minlevel = "auto", maxlevel = "auto", count = TRUE,
   \item{total.column}{whether to add 'total column' to the output or not}
   \item{simulate.p.value}{simulate P value for Fisher's exact test}
   \item{sample.size}{whether to display non-missing sample size of each column}
+	\item{assumption.p.value}{level of Bartlett's test P value to judge whether the comparison and the test should be parametric}
 }
-\details{This function simultaneously explores several variables with a fixed integer rating scale. For non-factor variables, the default values for tabulation are the mininum and the maximum of all variables but can be specified by user.
+\details{This function simultaneously explores several variables with a fixed integer rating scale. For non-factor variables, the default values for tabulation are the minimum and the maximum of all variables but can be specified by the user.
 
-The classes of the variables can be 'integer', 'factor' or 'logical but should not be any mixture of these.
+When 'by' is omitted, all variables must be of the same class, and must be 'integer', 'factor' or 'logical.
 
 Unlike function 'alpha', the argument 'reverse' has a default value of FALSE. This argument is ignored if 'vars.to.reverse' is specified.
 
 Options for 'reverse', 'vars.to.reverse' and statistics of 'means', 'medians', 'sds' and 'total' are available only if the items are not factor. To obtain statistics of factor items, users need to use 'unclassDataframe' to convert them into integer.
 
-When the 'by' argument is given, 'reverse' and 'vars.to.reverse' do not apply. Instead, columns of the 'by' variable will be formed. A table will be created against each selected variable. If the variable is a factor or coerced to factor with 'vars.to.factor', cross-tabulation will result with percents as specified, ie. "column", "row", or "none" (FALSE). For a dichotomous row variable, if set to 'TRUE', the prevalence of row variable in the form of a fraction is displayed in each subgroup column. For continuous variables, means with standard deviations will be displayed. For variables with residuals that are not normally distributed or where the variance of subgroups are significantly not normally distributed (using a significance level of 0.01), medians and inter-quartile ranges will be presented if the argument 'iqr' is set to "auto" (by default). Users may specify a subset of the selected variables (from the 'vars' argument) to be presented in such a form. Otherwise, the argument could be set as any other character string such as "none", to insist to present means and standard deviations. 
+When the 'by' argument is given, 'reverse' and 'vars.to.reverse' do not apply. Instead, columns of the 'by' variable will be formed. A table will be created against each selected variable. If the variable is a factor or coerced to factor with 'vars.to.factor', cross-tabulation will result with percents as specified, ie. "column", "row", or "none" (FALSE). For a dichotomous row variable, if set to 'TRUE', the prevalence of row variable in the form of a fraction is displayed in each subgroup column. For objects of class 'numeric' or 'integer', means with standard deviations will be displayed. For variables with residuals that are not normally distributed or where the variance of subgroups are significantly not normally distributed (using a significance level of 0.01), medians and inter-quartile ranges will be presented if the argument 'iqr' is set to "auto" (by default). Users may specify a subset of the selected variables (from the 'vars' argument) to be presented in such a form. Otherwise, the argument could be set as any other character string such as "none", to insist to present means and standard deviations. 
                                                                             
-When 'test = TRUE' (default), Pearson's chi-squared test (or a two-sided Fisher's exact test, if the sample size is small) will be carried out for a categorical variable or a factor. The two-sample t-test (or ANOVA F-test, when there are more than 2 levels of 'by') will be computed for a numeric variable. If the numeric variable is included in the 'iqr' argument, (manually or automatically), Wilcoxson's ranksum test or Kruskal-Wallis test will be performed instead. If the sample size of the numeric variable is too small in any group, the test is omitted and the problem reported.
+                                                                            
+When 'test = TRUE' (default), 
+Pearson's chi-squared test (or a two-sided Fisher's exact test, if the sample size is small) will be carried out for a categorical variable or a factor.
+Parametric or non-parametric comparison and test will be carried out for a object of class 'numeric' or 'integer' (See 'iqr' and 'assumption.p.value' below). 
+If the sample size of the numeric variable is too small in any group, the test is omitted and the problem reported.
 
 For Fisher's exact test, the default method employs 'simulate.p.value = FALSE'. See further explanation in 'fisher.test' procedure. If the dataset is extraordinarily large, the option may be manually set to TRUE. 
 
-When 'by' is specified as a single character object (such as 'by="none"'), there will be no breakdown and all tests will be omitted. Only the 'total' column is shown.
+When 'by' is specified as a single character object (such as 'by="none"'), there will be no column breakdown and all tests will be omitted. Only the total column is displayed. Only the 'total' column is shown.
 
 If this 'total column' is to accompany the 'by' breakdown, the argument 'total.column=TRUE' should be specified.
                                                                                              The 'sample.size' is TRUE by default. The total number of records for each group is displayed in the first row of the output. However, the variable in each row may have some missing records, the information on which is not reported by tableStack. 
                                                                         
 By default, Epicalc sets 'var.labels=TRUE' in order to give nice output. However, 'var.labels=FALSE' can sometimes be more useful during data exploration. Variable numbers as well as variable names are displayed instead of variable labels. Names and numbers of abnormally distributed variables, especially factors with too many levels, can be easily identified for further relevelling or recoding.
+
+The argument 'iqr' has a default value being "auto". Non-parametric comparison and test will be automatically chosen if Bartlett's test P value is below the 'assumption.p.value'.
+
+The test can be forced to parametric by setting 'iqr=NULL' and to non-parametric by if iqr is set to the variable number of cont.var (See examples.). 
+
 } 
 \value{an object of class 'tableStack' and 'list' when by=NULL 
 \item{results}{an object of class 'noquote' which is used for print out}

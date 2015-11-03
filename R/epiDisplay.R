@@ -4127,81 +4127,116 @@ qqline(x, col="blue", lty=2)
 }
 
 ### Match tabulation
-matchTab <- function(case, exposed, strata) {
-cat("\n")
-if((length(table(case))!=2)){
-stop("Case variable not binary")
+matchTab <-
+function (case, exposed, strata, decimal = 3)
+{
+#    cat("\n")
+    if ((length(table(case)) != 2)) {
+        stop("Case variable not binary")
+    }
+    if (any(is.na(case))) {
+        stop("There should not be any missing outcome")
+    }
+    if (length(table(exposed)) != 2) {
+        stop("Exposure variable not binary")
+    }
+    exposed1 <- exposed
+#    if (is.factor(exposed)) {
+#        cat(paste("Exposure status:", as.character(substitute(exposed)),
+#            "=", levels(exposed)[2], "\n"))
+#    }
+#    else {
+#        cat(paste("Exposure status:", as.character(substitute(exposed)),
+#            "=", max(exposed, na.rm = TRUE), "\n"))
+#    }
+#    cat("\n")
+    if (is.factor(exposed1)) {
+        exposed1 <- exposed1 == levels(exposed1)[2]
+    }
+    control <- 1 - case
+    a <- aggregate.data.frame(control, list(strata = strata),
+        sum)
+    colnames(a)[2] <- "ncontrols"
+    case.exposed <- case * exposed1
+    b <- aggregate.data.frame(case.exposed, list(strata = strata),
+        sum)
+    colnames(b)[2] <- "ncase.exposed"
+    control.exposed <- control * exposed1
+    c <- aggregate.data.frame(control.exposed, list(strata = strata),
+        sum)
+    colnames(c)[2] <- "ncontrol.exposed"
+    d <- aggregate.data.frame(case, list(strata = strata), length)
+    colnames(d)[2] <- "all.subjects"
+    e <- aggregate.data.frame(exposed1, list(strata = strata),
+        sum)
+    colnames(e)[2] <- "all.exposed"
+    f <- merge(a, b, by.x = "strata", by.y = "strata")
+    g <- merge(f, c, by.x = "strata", by.y = "strata")
+    h <- merge(g, d, by.x = "strata", by.y = "strata")
+    ii <- merge(h, e, by.x = "strata", by.y = "strata")
+    sum.ii <- rowSums(ii[, 2:6])
+    rowi0 <- nrow(ii)
+    ii <- subset(ii, !is.na(sum.ii))
+    rowi1 <- nrow(ii)
+    if (rowi1 < rowi0) {
+        cat(rowi0 - rowi1, "match sets with incomplete information omitted from tabulation.",
+            "\n")
+    }
+#    cat("Total number of match sets in the tabulation =", rowi1,
+#        "\n")
+    all.unexposed <- ii$all.subjects - ii$all.exposed
+    ii$ncontrol.exposed1 <- factor(ii$ncontrol.exposed, levels = as.character(0:max(ii$ncontrols)))
+    ii$ncase.exposed1 <- factor(ii$ncase.exposed, levels = as.character(0:max(ii$ncase.exposed)))
+    matchTable <- table(ii$ncase.exposed1, ii$ncontrol.exposed1,
+        ii$ncontrols, dnn = c("No. of cases exposed", "No. of controls exposed",
+            "No. of controls per case"))
+#    cat("\n")
+    control.per.case <- dimnames(matchTable)$'No. of controls per case'
+#    for (i in control.per.case) {
+#        cat( paste("Number of controls =", as.character(i), "\n"))
+#        print(matchTable[, 1:(as.integer(i) + 1), i])
+#        cat("\n")
+#    }
+
+    numerator <- (ii$ncontrols - ii$ncontrol.exposed) * ii$ncase.exposed/(ii$ncontrols +
+        1)
+    denominator <- ii$ncontrol.exposed * (1 - ii$ncase.exposed)/(ii$ncontrols +
+        1)
+    if (sum(denominator) < 1) {
+        cat("Inadequate discordant pairs. Odds ratio not computed")
+        cat("\n")
+    }
+    else {
+        if (any(ii$ncase.exposed > 1)) {
+            cat(paste(c("More than one cases exposed in strata # ",
+                as.character(ii$strata[ii$ncase.exposed > 1]),
+                ". M-H odds ratio not computed."), sep = ""))
+            cat("\n", "\n")
+        }
+        else {
+            mhor <- sum(numerator)/sum(denominator)
+#            cat(paste("Odds ratio by Mantel-Haenszel method =",
+#                round(mhor, 3), "\n", "\n"))
+        }
+        model <- clogit(case ~ exposed + strata(strata))
+        clogitor <- exp(model$coefficients)
+        lnci95 <- c(model$coefficients - qnorm(0.975) * sqrt(model$var),
+            model$coefficients + qnorm(0.975) * sqrt(model$var))
+        ci95.mleor <- exp(lnci95)
+#        cat(paste("Odds ratio by maximum likelihood estimate (MLE) method =",
+#            round(clogitor, 3), "\n", "95%CI=", round(ci95.mleor[1],
+#                3), ",", round(ci95.mleor[2], 3), "\n"))
+#        cat("\n")
+    }
+
+results <-    list(exposure.var.name=as.character(substitute(exposed)),
+      highest.exposure.level=names(table(exposed))[2] ,
+      total.match.sets = rowi1, matchTable = matchTable,
+      control.per.case =control.per.case, decimal=decimal,
+      mhor=mhor, mleor=clogitor, ci95.mleor =ci95.mleor)
+class(results) <- c("matchTab", "list")
+results
 }
-if(any(is.na(case))){
-stop("There should not be any missing outcome")}
-if(length(table(exposed))!=2){
-stop("Exposure variable not binary")
-}
-exposed1 <- exposed
-if(is.factor(exposed)){
-	cat(paste("Exposure status:", as.character(substitute(exposed)), "=", levels(exposed)[2],"\n"))
-}else{
-	cat(paste("Exposure status:", as.character(substitute(exposed)), "=", max(exposed, na.rm=TRUE),"\n"))
-}
-cat("\n")
-if(is.factor(exposed1)){
-	exposed1 <- exposed1==levels(exposed1)[2]
-}
-control <- 1-case
-aggregate.data.frame(control, list(strata=strata), sum) -> a
-colnames(a)[2] <- "ncontrols"
-case.exposed <- case*exposed1
-aggregate.data.frame(case.exposed, list(strata=strata), sum) -> b
-colnames(b)[2] <- "ncase.exposed"
-control.exposed <- control*exposed1
-aggregate.data.frame(control.exposed, list(strata=strata), sum) -> c
-colnames(c)[2] <- "ncontrol.exposed"
-aggregate.data.frame(case, list(strata=strata), length) -> d
-colnames(d)[2] <- "all.subjects"
-aggregate.data.frame(exposed1, list(strata=strata), sum) -> e
-colnames(e)[2] <- "all.exposed"
-merge(a,b,by.x="strata", by.y="strata") -> f
-merge(f,c,by.x="strata", by.y="strata") -> g
-merge(g,d,by.x="strata", by.y="strata") -> h
-merge(h,e,by.x="strata", by.y="strata") -> ii
-sum.ii <- rowSums(ii[,2:6])
-rowi0 <- nrow(ii)
-ii <- subset(ii, !is.na(sum.ii))
-rowi1 <- nrow(ii)
-if(rowi1 < rowi0){
-cat (rowi0-rowi1,"match sets with incomplete information omitted from tabulation.","\n")
-}
-cat ("Total number of match sets in the tabulation =", rowi1,"\n")
-all.unexposed <- ii$all.subjects-ii$all.exposed
-ii$ncontrol.exposed1 <- factor(ii$ncontrol.exposed, levels=as.character(0:max(ii$ncontrols)))
-ii$ncase.exposed1 <- factor(ii$ncase.exposed, levels=as.character(0:max(ii$ncase.exposed)))
-table(ii$ncase.exposed1, ii$ncontrol.exposed1, ii$ncontrols, dnn=c("No. of cases exposed","No. of controls exposed","No. of controls per case"))->matchTable
-cat("\n")
-for(i in 1:max(ii$ncontrols)){
-	cat(paste("Number of controls =",i,"\n"))
-	print(matchTable[1:max(c(2,max(which(rowSums(matchTable[,,i])>0)))),1:(i+1),i])
-	cat("\n")
-}
-numerator <- (ii$ncontrols-ii$ncontrol.exposed)*ii$ncase.exposed/(ii$ncontrols+1)
-denominator <- ii$ncontrol.exposed*(1-ii$ncase.exposed)/(ii$ncontrols+1)
-if(sum(denominator) <1){
-cat("Inadequate discordant pairs. Odds ratio not computed"); cat("\n")
-}else{
-if(any(ii$ncase.exposed>1)){
-cat(paste(c("More than one cases exposed in strata # ", as.character(ii$strata[ii$ncase.exposed > 1]), ". M-H odds ratio not computed."), sep=""))
-cat("\n", "\n")
-}else{
-mhor <- sum(numerator)/sum(denominator)
-cat(paste("Odds ratio by Mantel-Haenszel method =", round(mhor,3), "\n", "\n"))
-### computing MLE-OR using clogit
-}
-model <- clogit(case ~ exposed + strata(strata))
-clogitor <- exp(model$coefficients)
-lnci95 <- c(model$coefficients-qnorm(0.975)*sqrt(model$var),model$coefficients+qnorm(0.975)*sqrt(model$var))
-ci95.mleor <- exp(lnci95)
-cat(paste("Odds ratio by maximum likelihood estimate (MLE) method =", round(clogitor,3),"\n","95%CI=",round(ci95.mleor[1],3),",",round(ci95.mleor[2],3), "\n"))
-cat("\n")
-}}
  
 ### Goodness-of-fit test for poisson assumption after regression
 poisgof <- function(model) {
@@ -5867,7 +5902,8 @@ function (vars, dataFrame, minlevel = "auto", maxlevel = "auto", count = TRUE, n
     reverse = FALSE, vars.to.reverse = NULL, by = NULL, vars.to.factor = NULL, 
     iqr = "auto", prevalence = FALSE, percent = c("column", "row", 
         "none"), frequency = TRUE, test = TRUE, name.test = TRUE, 
-    total.column = FALSE, simulate.p.value = FALSE, sample.size = TRUE) 
+    total.column = FALSE, simulate.p.value = FALSE, sample.size = TRUE,
+    assumption.p.value = .01) 
 {
     nl <- as.list(1:ncol(dataFrame))
     names(nl) <- names(dataFrame)
@@ -6145,8 +6181,8 @@ function (vars, dataFrame, minlevel = "auto", maxlevel = "auto", count = TRUE, n
                           }
                           else if (shapiro.test(lm(dataFrame[, 
                             selected[i]] ~ by1)$residuals)$p.value < 
-                            0.01 | bartlett.test(dataFrame[, 
-                            selected[i]] ~ by1)$p.value < 0.01) {
+                            assumption.p.value | bartlett.test(dataFrame[, 
+                            selected[i]] ~ by1)$p.value < assumption.p.value) {
                             selected.iqr <- c(selected.iqr, selected[i])
                           }
                         }
@@ -6154,8 +6190,8 @@ function (vars, dataFrame, minlevel = "auto", maxlevel = "auto", count = TRUE, n
                           sampled.shapiro <- sample(lm(dataFrame[, 
                             selected[i]] ~ by1)$residuals, 250)
                           if (shapiro.test(sampled.shapiro)$p.value < 
-                            0.01 | bartlett.test(dataFrame[, 
-                            selected[i]] ~ by1)$p.value < 0.01) {
+                            assumption.p.value | bartlett.test(dataFrame[, 
+                            selected[i]] ~ by1)$p.value < assumption.p.value) {
                             selected.iqr <- c(selected.iqr, selected[i])
                           }
                         }
@@ -6461,6 +6497,70 @@ print.table(noquote((x)))
 }
 }
 
+## Print matchTab
+print.matchTab <- function(x, ...) {
+cat("\n")
+cat(paste("Exposure status:", x$exposure.var.name,
+            "=", x$highest.exposure.level, "\n", "\n"))
+cat("Total number of match sets in the tabulation =", x$total.match.sets,
+        "\n", "\n")
+for (i in x$control.per.case) {
+        cat( paste("Number of controls =", as.character(i), "\n"))
+        print(x$matchTable[, 1:(as.integer(i) + 1), i])
+        cat("\n")
+    }
+cat(paste("Odds ratio by Mantel-Haenszel method =",
+                round(x$mhor, x$decimal), "\n", "\n"))
 
+cat(paste("Odds ratio by maximum likelihood estimate (MLE) method =",
+            round(x$mleor, x$decimal), "\n", "95%CI=", round(x$ci95.mleor[1],
+                x$decimal), ",", round(x$ci95.mleor[2], x$decimal), "\n", "\n"))
+}
 
-  
+## statStack 
+statStack <-
+function (cont.var, by, dataFrame, iqr="auto", var.labels = TRUE, 
+    decimal = 1, assumption.p.value = .01) 
+{
+    nl <- as.list(1:ncol(dataFrame))
+    names(nl) <- names(dataFrame)
+    Cont.var <- eval(substitute(cont.var), nl, parent.frame())# colu variable
+    By.vars <- eval(substitute(by), nl, parent.frame()) # row variables
+    if (class(dataFrame[,Cont.var]) != "numeric" &
+        class(dataFrame[,Cont.var]) != "integer"){
+        stop(paste("The variable to compute statistics must be numeric or integer. ",
+        "'",names(dataFrame)[Cont.var],"'", " is not.", sep=""))
+        }
+    for(i in By.vars){
+    if (class(dataFrame[,i]) != "factor"){
+        stop(paste("All 'by' variables must be 'factor'. ",
+        "'",names(dataFrame)[i],"'", " is not.", sep=""))
+        }
+    }    
+    stack <- NULL
+    for(i in By.vars){
+      tStack <- tableStack(Cont.var, by=i
+      , iqr=iqr, test=TRUE, name.test=TRUE,
+      sample.size=TRUE,var.labels=var.labels, decimal=decimal,
+      dataFrame=dataFrame, assumption.p.value =assumption.p.value
+      )
+      ncol.tStack <- ncol(tStack)
+      stack <- rbind(stack, 
+      c(ifelse(!is.null(attr(dataFrame, "var.labels")[i]),
+               ifelse(attr(dataFrame, "var.labels")[i]=="", names(dataFrame)[i],attr(dataFrame, "var.labels")[i]),
+               names(dataFrame)[i]),"","","","",tStack[3,ncol.tStack-1],
+               tStack[3,ncol.tStack]),
+      cbind(t(tStack[,-(ncol.tStack:(ncol.tStack-1))]),
+                         rep("",ncol.tStack-2),
+                         rep("",ncol.tStack-2))
+                    )
+      colnames(stack)[c(ncol(stack)-1,ncol(stack))] <- c("Test","P value")
+      stack <- rbind(stack, rep("",ncol(stack)))              
+     }
+        class(stack) <- c("statStack", "table")
+        stack
+}
+
+## Print statStack
+print.statStack <-
+function (x, ...) print.table(noquote((x)))
