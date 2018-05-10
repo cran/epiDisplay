@@ -4,9 +4,9 @@
 \title{One-way tabulation}
 \description{One-way tabulation with automatic bar chart and optional indicator variables generation}
 \usage{
-tab1(x0, decimal = 1, sort.group = c(FALSE, "decreasing", 
-    "increasing"), cum.percent = !any(is.na(x0)), graph = TRUE, 
-    missing = TRUE, bar.values = c("frequency", "percent", "none"), 
+tab1(x0, decimal = 1, sort.group = FALSE, 
+    cum.percent = !any(is.na(x0)), graph = TRUE, 
+    missing = TRUE, bar.values = "frequency", 
     horiz = FALSE, cex = 1, cex.names = 1, main = "auto", xlab = "auto", 
     ylab = "auto", col = "auto", gen.ind.vars = FALSE, ...) 
 
@@ -15,11 +15,11 @@ tab1(x0, decimal = 1, sort.group = c(FALSE, "decreasing",
 \arguments{
 	\item{x0}{a variable}
 	\item{decimal}{number of decimals for the percentages in the table}
-	\item{sort.group}{pattern for sorting categories in the table and in the chart. Default is no sorting.}
+	\item{sort.group}{pattern for sorting categories in the table and in the chart. Default is no sorting. I can also be "decreasing" or "increasing".}
 	\item{cum.percent}{presence of cumulative percentage in the output table. Default is TRUE for a variable without any missing values.}
 	\item{graph}{whether a graph should be shown}
 	\item{missing}{include the missing values category or <NA> in the graphic display}
-	\item{bar.values}{include the value of frequency, percentage or none at the end of each bar}
+	\item{bar.values}{include the value of frequency. This can also be "percent" or "none" at the end of each bar}
 	\item{horiz}{set the bar chart to horizontal orientation}
   \item{cex}{parameter for extension of characters or relative size of the bar.values}
   \item{cex.names}{character extension or relative scale of the name labels for the bars}

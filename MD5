@@ -1,6 +1,6 @@
-e283534f81c392425955ce0609b0d730 *DESCRIPTION
+cf805f4048c92db4fb519e9cc51b0686 *DESCRIPTION
 ede42e60d0d9e5fdd5ea3cb221349fa7 *NAMESPACE
-f9e57bcec52e1e72b23b40a8a94de461 *R/epiDisplay.R
+b8140b2f223d0622d9454ed924d6a0bd *R/epiDisplay.R
 1721d9a396b168fe50a85b52adbc228f *data/ANCdata.rdata
 c1ddefc687a4e0421362affcbb17debb *data/ANCtable.txt.gz
 af5abbf83afc371f6a64009cd3eb9106 *data/Attitudes.rdata
@@ -57,7 +57,7 @@ e164aefd629243b473bb2d301a96290d *man/Timing.Rd
 74c505a8a486f31ac44fefc5296a32fa *man/VCT.rd
 ea65e1c86b44eaf9a35deb8526bd87f9 *man/Vc1to1.rd
 da8fad92605356060b08dbfc1efc30b1 *man/Xerop.rd
-21e3deb2d48685c798c47973c54e5409 *man/aggregate.numeric.rd
+882b6929b4864661876b15915e436ad7 *man/aggregate.numeric.rd
 e2a04ed05627b992fe27e6eea478e4e4 *man/aggregate.plot.rd
 448ead5a24b9a3ff181cc1f184bcccaf *man/alpha.rd
 00a4f440548f98a0041f0762530a3961 *man/bang.rd
@@ -67,7 +67,7 @@ e539c835b76ab9247b48cdc9bd4342f7 *man/codebook.rd
 398890893e0ac0d51495853b0b0d2a4d *man/des.rd
 21cc0e507406aeb8db78ecc363cf771b *man/dotplot.rd
 97c37b5e5a657a097e8eafab70e834dd *man/followup.plot.rd
-6a44510e3acf7e1effb05557aa9376f3 *man/kap.rd
+4c877d856d8575df68783457208cda88 *man/kap.rd
 943699995ac214ef9e569c76cf5d9906 *man/lookup.rd
 b2696f2723cae99754efb3e46bbc4008 *man/lrtest.rd
 8b86026730db77d2cec2dbdf91a28fc9 *man/lsNoFunction.rd
@@ -96,7 +96,7 @@ d2410e5c14d6a77bff88a73c23f70efd *man/print.statStack.rd
 3582151ed4aae3975783d19373403737 *man/print.summ.data.frame.rd
 8fcc4741c44e95cb3631125a8c4da7ee *man/print.summ.default.rd
 45c8d5ce54a89b52c42e3aa1e1a4808f *man/print.tableStack.rd
-4afa1a40ff5a24bd8c7b422946c3a5b7 *man/pyramid.rd
+82c9957f0a8e53ec12c5e010342d5bbf *man/pyramid.rd
 ef6067a8db5ea33c27b9d565849504cb *man/risk.display.rd
 a4564e0bfaf3472d341e7ae98117cf47 *man/roc.rd
 6491b999c23ea3f0f104ce7f7686048e *man/sampsize.rd
@@ -104,7 +104,7 @@ a4564e0bfaf3472d341e7ae98117cf47 *man/roc.rd
 4ef70c1e97c4ed8d9b134b82ebabf98f *man/shapiro.qqnorm.rd
 0cf6aaeebe2d0bc288cb345c5273173c *man/statStack.rd
 2ebea5d8a7b95391e19c031630b177d6 *man/summ.rd
-be529d6313ba0565d6c4378fbe52698a *man/tab1.rd
-676023631c66c6ca5f978995d77c3350 *man/tableStack.rd
-88a936c4c78c79482bab87d2d0b4d2ab *man/tabpct.rd
+ebd99405e1932c27d864b4298aa5c6cd *man/tab1.rd
+cc7b1e6eecbee3b084237dcd1fc7cc86 *man/tableStack.rd
+db2785bbeed00929de4a037ed1d2e1a2 *man/tabpct.rd
 c40f827949feb0b87802c2ffbbba41e7 *man/titleString.rd

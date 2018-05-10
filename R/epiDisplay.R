@@ -83,8 +83,8 @@ function (dataFrame)
                       index <- attr(attr(dataFrame, "label.table"), 
                         "names") == attr(dataFrame, "val.labels")[i]
                       index <- na.omit(index)
-                      if (suppressWarnings(!all(rownames(as.data.frame(attr(dataFrame, 
-                        "label.table")[index])) == levels(x2)))) {
+                      if (length(rownames(as.data.frame(attr(dataFrame, 
+                        "label.table")[index]))) == length(levels(x2))) {
                         print.noquote(table1, right = TRUE)
                       }
                       else {
@@ -111,12 +111,8 @@ function (dataFrame)
 ###################
 # Setting locale and automatic graph titles
 setTitle <- function(locale){
-  suppressWarnings(Sys.setlocale("LC_ALL",locale))
-  if(nchar(suppressWarnings(Sys.setlocale("LC_ALL",locale)))>0){
-  print(Sys.getlocale())
-  .locale(TRUE) 
-  }else{print("Invalid locale under this system.")}
-  # With `setTitle' command the language of title will change with locale
+  Sys.setlocale("LC_ALL",locale)
+    # With `setTitle' command the language of title will change with locale
   # listed in the array of the title string.
 }
 
@@ -196,8 +192,9 @@ print.noquote(x$table)
 }
 
 ### Getting percentage from the tabulation
-tabpct <- function(row, column, decimal=1, percent=c("both","col","row"), graph=TRUE, las=0, main = "auto", xlab = "auto", 
-    ylab = "auto", col="auto",  ...) {
+tabpct <- function(row, column, decimal = 1, percent = "both", 
+                   graph = TRUE, las = 0, main = "auto", xlab = "auto", 
+                   ylab = "auto", col = "auto", ...) {
 tab <- table(row, column, deparse.level=1, dnn=list(deparse(substitute(row)),deparse(substitute(column))))
 # column percent
 cpercent <-tab
@@ -235,25 +232,25 @@ colnames(rpercent)[ncol(rpercent)] <- "Total"
 			string4 <- deparse(substitute(column))
 names(attr(tab,"dimnames")) <-c(string2, string4)
 cat( "\n")
-suppressWarnings(if(percent=="both"){
+if(percent=="both"){
 cat("Original table", "\n")
 tabtotal <- addmargins(tab)
 colnames(tabtotal)[ncol(tabtotal)] <- "Total"
 rownames(tabtotal)[nrow(tabtotal)] <- "Total"
 print(tabtotal, print.gap=2)
-cat( "\n")})
+cat( "\n")}
 
-suppressWarnings(if(percent=="both" | percent=="row"){
+if(percent=="both" | percent=="row"){
 cat("Row percent", "\n")
 names(attr(rpercent,"dimnames")) <- c(string2, string4)
 print.table(rpercent, right=TRUE, print.gap=2)
-cat( "\n")})
+cat( "\n")}
 
-suppressWarnings(if(percent=="both" | percent=="col"){
+if(percent=="both" | percent=="col"){
 cat("Column percent", "\n")
 names(attr(cpercent,"dimnames")) <- c(string2, string4)
 print.table(cpercent, right=TRUE, print.gap=2)
-cat( "\n")})
+cat( "\n")}
 
 if(graph==TRUE){
 	rownames(tab)[is.na(rownames(tab))] <- "missing"
@@ -292,7 +289,7 @@ if(is.null(cctable.dimnames)){
 			string4 <- cctable.dimnames[2]
 			string2 <- cctable.dimnames[1]
 names(attr(cctable,"dimnames")) <-c(string2, string4)
-suppressWarnings(return(list(cctable, caseexp=cctable[2,2], controlex=cctable[1,2], casenonex=cctable[2,1], controlnonex=cctable[1,1])))
+list(cctable, caseexp=cctable[2,2], controlex=cctable[1,2], casenonex=cctable[2,1], controlnonex=cctable[1,1])
 }
 
 
@@ -667,7 +664,8 @@ print.cci <- function(x, ...){
 
 #### Cohort tabulation from a dataset
 cs <-
-function (outcome, exposure, cctable = NULL, decimal = 2, method="Newcombe.Wilson", main, xlab, ylab, cex, cex.axis) 
+function (outcome, exposure, cctable = NULL, decimal = 2, method="Newcombe.Wilson", main, xlab, ylab,
+          cex, cex.axis) 
 {
     if (is.null(cctable)) {
         cctable <- table(outcome, exposure, deparse.level = 1, 
@@ -2246,23 +2244,31 @@ lrtest <- function (model1, model2)
             stop("Likelihood gets worse with more variables. Test not executed")
         }
     }
-    if (suppressWarnings((all(class(model1) == c("glm", "lm")) &
-        all(class(model2) == c("glm", "lm"))) | (any(class(model1) ==
-        "negbin") & any(class(model2) == "negbin")))) {
-        if (sum(model1$df.null) != sum(model2$df.null))
-            stop("Number of observation not equal!!")
-        df1 <- attributes(logLik(model1))$df
-        df2 <- attributes(logLik(model2))$df
-        lrt <- 2 * (as.numeric(logLik(model2) - logLik(model1)))
-        diff.df <- df2 - df1
-        if (lrt < 0) {
-            lrt <- -lrt
-            diff.df <- -diff.df
+  
+    if (length(class(model1)) != length(class(model2))) {
+        stop("Different types of models cannot be compared")
+    } else {
+        if (any(class(model1) != class(model2))) {
+        stop("Different types of models cannot be compared")  
+        } else {
+          if( any(class(model1) == "glm") | any(class(model1) == "negbin")){
+            if (sum(model1$df.null) != sum(model2$df.null))
+              stop("Number of observation not equal!!")
+            df1 <- attributes(logLik(model1))$df
+            df2 <- attributes(logLik(model2))$df
+            lrt <- 2 * (as.numeric(logLik(model2) - logLik(model1)))
+            diff.df <- df2 - df1
+            if (lrt < 0) {
+              lrt <- -lrt
+              diff.df <- -diff.df
+            }
+            if (lrt * diff.df < 0) {
+              stop("Likelihood gets worse with more variables. Test not executed")
+            }
+            
+          }
         }
-        if (lrt * diff.df < 0) {
-            stop("Likelihood gets worse with more variables. Test not executed")
         }
-    }
     output <- list(model1 = model1$call, model2 = model2$call, model.class =class(model1),
         Chisquared = lrt, df = diff.df, p.value = pchisq(lrt,
             diff.df, lower.tail = FALSE))
@@ -2293,8 +2299,8 @@ if(any(x$model.class == "polr")){
                 "P value = ", x$p.value, "\n")
             cat("\n")
 }
-if (suppressWarnings((all(x$model.class == c("glm", "lm"))) | (any(x$model.class ==
-        "negbin")))){
+if (any(x$model.class == "glm") | any(x$model.class ==
+        "negbin")){
 
             cat("Likelihood ratio test for MLE method", "\n")
             cat("Chi-squared", x$df, "d.f. = ", x$Chisquared, ",",
@@ -2932,7 +2938,7 @@ kap.default <- function(x, ...){
 }
 ### Kappa statistics from a table cross-tab ratings of 2 raters
 kap.table <-
-function (x, decimal =3, wttable = c(NULL, "w", "w2"), print.wttable = FALSE, ...)
+function (x, decimal =3, wttable = NULL, print.wttable = FALSE, ...)
 {
     kaptable <- x
     if (ncol(kaptable) != nrow(kaptable))
@@ -4250,11 +4256,12 @@ return(list(results="Goodness-of-fit test for Poisson assumption",chisq=chisq, d
 
 
 ### One-way tabulation
-tab1 <- function (x0, decimal = 1, sort.group = c(FALSE, "decreasing", 
-    "increasing"), cum.percent = !any(is.na(x0)), graph = TRUE, 
-    missing = TRUE, bar.values = c("frequency", "percent", "none"), 
-    horiz = FALSE, cex = 1, cex.names = 1, main = "auto", xlab = "auto", 
-    ylab = "auto", col = "auto", gen.ind.vars = FALSE, ...) 
+tab1 <-  
+function(x0, decimal = 1, sort.group = FALSE, 
+     cum.percent = !any(is.na(x0)), graph = TRUE, 
+     missing = TRUE, bar.values = "frequency", 
+     horiz = FALSE, cex = 1, cex.names = 1, main = "auto", xlab = "auto", 
+     ylab = "auto", col = "auto", gen.ind.vars = FALSE, ...) 
 {
     if (graph) {
         var1 <- deparse(substitute(x0))
@@ -4277,12 +4284,12 @@ tab1 <- function (x0, decimal = 1, sort.group = c(FALSE, "decreasing",
                 names(table.to.plot)[length(names(table.to.plot))] <- "Missing"
         }
         scale.label <- as.character(titleString()$frequency)
-        suppressWarnings(if (bar.values == "percent") {
+        if (bar.values == "percent") {
             table.to.plot <- round(table.to.plot/sum(table.to.plot) * 
                 100, decimal)
             scale.label <- "%"
-        })
-        suppressWarnings(if (sort.group == "decreasing") {
+        }
+        if (sort.group == "decreasing") {
             table.to.plot <- table.to.plot[order(table.to.plot, 
                 names(table.to.plot), decreasing = TRUE)]
             if (max(nchar(names(table.to.plot))) > 8 & length(table.to.plot) > 
@@ -4290,8 +4297,8 @@ tab1 <- function (x0, decimal = 1, sort.group = c(FALSE, "decreasing",
                 table.to.plot <- table.to.plot[order(table.to.plot, 
                   names(table.to.plot), decreasing = FALSE)]
             }
-        })
-        suppressWarnings(if (sort.group == "increasing") {
+        }
+        if (sort.group == "increasing") {
             table.to.plot <- table.to.plot[order(table.to.plot, 
                 names(table.to.plot), decreasing = FALSE)]
             if (max(nchar(names(table.to.plot))) > 8 & length(table.to.plot) > 
@@ -4299,7 +4306,7 @@ tab1 <- function (x0, decimal = 1, sort.group = c(FALSE, "decreasing",
                 table.to.plot <- table.to.plot[order(table.to.plot, 
                   names(table.to.plot), decreasing = TRUE)]
             }
-        })
+        }
         if(any(col == "auto")){
         if (length(names(table.to.plot)) < 3){
           colours <- "grey"
@@ -4319,12 +4326,12 @@ tab1 <- function (x0, decimal = 1, sort.group = c(FALSE, "decreasing",
                 xlim = c(0, max(table.to.plot) * 1.2), xlab = ifelse(xlab == 
                 "auto", scale.label, xlab), cex.names = cex.names, col=colours,
                 ...)
-            suppressWarnings(if (bar.values == "frequency" | 
-                bar.values == "percent" | length(bar.values) == 
-                3) {
+            if (bar.values == "frequency" | 
+                bar.values == "percent" ) 
+              {
                 text(table.to.plot, y.coordinates, as.character(table.to.plot), 
                   pos = 4, offset = 0.3, cex = cex)
-            })
+            }
             par(mai = c(0.95625, 0.76875, 0.76875, 0.39375))
         }
         else {
@@ -4333,12 +4340,12 @@ tab1 <- function (x0, decimal = 1, sort.group = c(FALSE, "decreasing",
                 "auto", scale.label, ylab), cex.names = cex.names, 
                 ylim = c(0, max(table.to.plot) * 1.1), col=colours,
                  ...)
-            suppressWarnings(if (bar.values == "frequency" | 
+            if (bar.values == "frequency" | 
                 bar.values == "percent" | length(bar.values) == 
                 3) {
                 text(x.coordinates, table.to.plot, as.character(table.to.plot), 
                   pos = 3, cex = cex)
-            })
+            }
         }
     }
     if (any(is.na(x0))) {
@@ -4363,14 +4370,14 @@ tab1 <- function (x0, decimal = 1, sort.group = c(FALSE, "decreasing",
             output <- cbind(output0, round(percent0, decimal), 
                 c(round(percent1, decimal), as.integer(0)))
         }
-        suppressWarnings(if (sort.group == "decreasing") {
+        if (sort.group == "decreasing") {
             output <- output[order(output[, 1], decreasing = TRUE), 
                 ]
-        })
-        suppressWarnings(if (sort.group == "increasing") {
+        }
+        if (sort.group == "increasing") {
             output <- output[order(output[, 1], decreasing = FALSE), 
                 ]
-        })
+        }
         if (cum.percent) {
             output <- rbind(output, c(sum(as.integer(output[, 
                 1])), 100, 100, 100, 100))
@@ -4386,14 +4393,14 @@ tab1 <- function (x0, decimal = 1, sort.group = c(FALSE, "decreasing",
     }
     else {
         output <- (t(t(table(x0))))
-        suppressWarnings(if (sort.group == "decreasing") {
+        if (sort.group == "decreasing") {
             output <- output[order(table(x0), names(table(x0)), 
                 decreasing = TRUE), ]
-        })
-        suppressWarnings(if (sort.group == "increasing") {
+        }
+        if (sort.group == "increasing") {
             output <- output[order(table(x0), names(table(x0)), 
                 decreasing = FALSE), ]
-        })
+        }
         percent <- output/sum(output) * 100
         if (cum.percent) {
             output <- cbind(output, round(percent, decimal), 
@@ -4709,18 +4716,17 @@ cat("\n")
 
 
 ### Pyramid of age by sex
-pyramid <- function (age, sex, binwidth = 5, inputTable = NULL, printTable = FALSE, 
-    percent = c("none", "each", "total"), col.gender = NULL, bar.label = "auto", decimal = 1, 
-    col = NULL, cex.bar.value = .8, cex.axis =1, main = "auto", cex.main = 1.2,...) 
+pyramid <-  
+function (age, sex, binwidth = 5, inputTable = NULL, printTable = FALSE, 
+         percent = "none", col.gender = NULL, 
+         bar.label = "auto", decimal = 1, col = NULL, cex.bar.value = 0.8, 
+         cex.axis = 1, main = "auto", cex.main = 1.2, ...)
 {
     if(!is.null(col.gender)){
     if(length(col.gender) != 2) stop("Argument 'col.gender' must be two colours or NULL.")
     }
-    if(length(percent) == 3) {
-      percent <- "none"
       if(bar.label == "auto"){
       bar.label <- FALSE
-      }
     }  
     if (is.null(inputTable)) {
         agegr <- cut(age, br = ((min(age, na.rm = TRUE)%/%binwidth):(max(age, 
@@ -5114,7 +5120,7 @@ x.is.01 <- FALSE
             x1 <- x * 1
         if (is.numeric(x)) 
             x1 <- x
-        if (FUN == "mean") {
+        if (any(FUN == "mean")) {
             sum.matrix <- tapply(x1, by, FUN = "sum", na.rm = TRUE)
             mean.matrix <- tapply(x1, by, FUN = "mean", na.rm = TRUE)
             sd.matrix <- tapply(x1, by, FUN = "sd", na.rm = TRUE)
@@ -5123,7 +5129,7 @@ x.is.01 <- FALSE
             if (error == "se") {
                 error.matrix <- sd.matrix/sqrt(count.matrix)
             }
-            if (error == "sd") {
+              if (error == "sd") {
                 error.matrix <- sd.matrix
             }
             sum.data.frame <- as.data.frame.table(sum.matrix)
@@ -5721,7 +5727,7 @@ alpha <- function (vars, dataFrame, casewise = FALSE, reverse = TRUE,
         nl1 <- as.list(1:ncol(dataFrame[, selected]))
         names(nl1) <- names(dataFrame[, selected])
         which.neg <- eval(substitute(vars.to.reverse), nl1, parent.frame())
-    if (suppressWarnings(!is.null(which.neg))) {
+    if (length(which.neg)> 0) {
         selected.matrix[, which.neg] <- -1 * selected.matrix[, 
             which.neg]
         reverse <- FALSE
@@ -5900,8 +5906,7 @@ function (vars, dataFrame, minlevel = "auto", maxlevel = "auto", count = TRUE, n
     means = TRUE, medians = FALSE, sds = TRUE, decimal = 1, 
     total = TRUE, var.labels = TRUE, var.labels.trunc = 150, 
     reverse = FALSE, vars.to.reverse = NULL, by = NULL, vars.to.factor = NULL, 
-    iqr = "auto", prevalence = FALSE, percent = c("column", "row", 
-        "none"), frequency = TRUE, test = TRUE, name.test = TRUE, 
+    iqr = "auto", prevalence = FALSE, percent = "column", frequency = TRUE, test = TRUE, name.test = TRUE, 
     total.column = FALSE, simulate.p.value = FALSE, sample.size = TRUE,
     assumption.p.value = .01) 
 {
@@ -5952,7 +5957,7 @@ function (vars, dataFrame, minlevel = "auto", maxlevel = "auto", count = TRUE, n
             }
         }
     }
-    if ((reverse || suppressWarnings(!is.null(vars.to.reverse))) && 
+    if ((reverse || length(vars.to.reverse)) > 0 && 
         is.factor(dataFrame[, selected][, 1])) {
         stop("Variables must be in 'integer' class before reversing. \n        Try 'unclassDataframe' first'")
     }
@@ -5973,7 +5978,7 @@ function (vars, dataFrame, minlevel = "auto", maxlevel = "auto", count = TRUE, n
         nlevel <- as.list(minlevel:maxlevel)
         names(nlevel) <- eval(substitute(minlevel:maxlevel), 
             nlevel, parent.frame())
-        if (suppressWarnings(!is.null(vars.to.reverse))) {
+        if (length(vars.to.reverse) >0) {
             nl1 <- as.list(1:ncol(dataFrame))
             names(nl1) <- names(dataFrame[, selected])
             which.neg <- eval(substitute(vars.to.reverse), nl1, 
@@ -6130,7 +6135,7 @@ function (vars, dataFrame, minlevel = "auto", maxlevel = "auto", count = TRUE, n
             }
         }
         results <- list(results = noquote(results))
-        if (reverse || suppressWarnings(!is.null(vars.to.reverse))) 
+        if (reverse || length(vars.to.reverse)) 
             results <- c(results, list(items.reversed = names(selected.dataFrame)[sign1 < 
                 0]))
         if (var.labels && !is.null(attributes(dataFrame)$var.labels)) {
@@ -6308,9 +6313,9 @@ function (vars, dataFrame, minlevel = "auto", maxlevel = "auto", count = TRUE, n
                   }
                   else {
                     test.method <- paste("Chisq. (", suppressWarnings(chisq.test(x0)$parameter), 
-                      " df) = ", suppressWarnings(round(chisq.test(x0)$statistic, 
+                      " df) = ", suppressWarnings(round(chisq.test(x0, correct = FALSE)$statistic, 
                         decimal + 1)), sep = "")
-                    p.value <- suppressWarnings(chisq.test(x0)$p.value)
+                    p.value <- suppressWarnings(chisq.test(x0, correct = FALSE)$p.value)
                   }
                 }
             }

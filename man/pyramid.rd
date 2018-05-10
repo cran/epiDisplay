@@ -4,7 +4,7 @@
 \description{Create a population pyramid from age and sex}
 \usage{
 pyramid (age, sex, binwidth = 5, inputTable = NULL, printTable = FALSE, 
-    percent = c("none", "each", "total"), col.gender = NULL, 
+    percent = "none", col.gender = NULL, 
     bar.label = "auto", decimal = 1, col = NULL, cex.bar.value = 0.8, 
     cex.axis = 1, main = "auto", cex.main = 1.2, ...)
 }
@@ -14,7 +14,7 @@ pyramid (age, sex, binwidth = 5, inputTable = NULL, printTable = FALSE,
 	\item{binwidth}{bin width of age for each bar}
 	\item{inputTable}{a table to read in with two columns of sexes and rows of age groups}
 	\item{printTable}{whether the output table should be displayed on the console}
-	\item{percent}{whether the lengths of the bars should be calculated from freqencies (default), percentages of each sex or total percentages}
+	\item{percent}{whether the lengths of the bars should be calculated from freqencies ("none" as default), percent of "each" sex or "total"" percentages}
   \item{col.gender}{vector reflecting colours of the two gender}
   \item{bar.label}{whether the bars would be labelled with the values}
 	\item{decimal}{number of decimals displayed in the percent output table}

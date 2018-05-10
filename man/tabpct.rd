@@ -3,8 +3,8 @@
 \title{Two-way tabulation with mosaic plot}
 \description{Two-way tabulation with automatic mosaic plot}
 \usage{
-tabpct(row, column, decimal = 1, percent = c("both", "col", 
-    "row"), graph = TRUE, las = 0, main = "auto", xlab = "auto", 
+tabpct(row, column, decimal = 1, percent = "both", 
+    graph = TRUE, las = 0, main = "auto", xlab = "auto", 
     ylab = "auto", col = "auto", ...) 
   
 }
@@ -35,7 +35,7 @@ The width of the bar in the plot denotes the relative proportion of the row vari
 
 Inside each bar, the relative proportion denotes the distribution of column variables within each row variable.
 
-Note that 'row' and 'col' arguments of this function are for the table, not the mosaic plot and the default value for the 'percent' orientation is "both".
+The default value for the 'percent' orientation is "both". It can also be "col" or "row".
 
 Due to limitation of 'mosaicplot', certain graphic parameters such as 'cex.main', 'cex.lab' are not acceptable. The parameter 'main', 'xlab' and 'ylab' can be suppressed by making equal to " ". An additional line starting with 'title' can be used to write new main and label titles with 'cex.main' and 'cex.lab' specified. 
 }

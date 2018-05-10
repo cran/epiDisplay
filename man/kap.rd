@@ -12,7 +12,7 @@ kap(x, ...)
 
 \method{kap}{default}(x, ...)
 
-\method{kap}{table}(x, decimal =3, wttable = c(NULL, "w", "w2"), print.wttable = FALSE, ...)
+\method{kap}{table}(x, decimal =3, wttable = NULL, print.wttable = FALSE, ...)
 
 \method{kap}{2.raters}(x, rater2, decimal =3, ...)
 
@@ -31,7 +31,7 @@ kap(x, ...)
        }}
 
 	\item{decimal}{number of decimal in the print}
-  \item{wttable}{cross tabulation of weights of agreement among categories. Applicable only for 'kap.table' and 'kap.2.raters'}
+  \item{wttable}{cross tabulation of weights of agreement among categories. It can be NULL, "w" and "w2". Applicable only for 'kap.table' and 'kap.2.raters'}
 	\item{print.wttable}{whether the weights table will be printed out}
 	\item{rater2}{a vector or factor containing opinions of the second rater among two raters.}
 	\item{...}{further arguments passed to or used by other methods.}
