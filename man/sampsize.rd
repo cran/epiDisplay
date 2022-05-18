@@ -115,7 +115,7 @@ Each type of returned values consists of vectors of various parameters in
 the formula and the required sample size(s).  
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'power.for.2means', 'power.for.2p'}
 \references{

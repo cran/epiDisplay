@@ -11,7 +11,7 @@ lrtest (model1, model2)
 	\item{model1, model2}{Two models of class "glm" having the same set of records and the same type ('family' and 'link')}
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'glm', 'logLik', 'deviance'}
 \examples{

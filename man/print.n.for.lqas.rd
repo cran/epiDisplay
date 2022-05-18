@@ -10,7 +10,7 @@
        \item{...}{further arguments passed to or used by methods.}
 }
 \author{Virasakdi Chongsuvivatwong
-       \email{ <cvirasak@medicine.psu.ac.th>}
+       \email{ cvirasak@gmail.com}
 }
 \examples{
 n.for.lqas(p0 = 0.05, q=0)

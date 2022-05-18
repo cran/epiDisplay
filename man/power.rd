@@ -17,7 +17,7 @@ power.for.2means(mu1, mu2, n1, n2, sd1, sd2, alpha = 0.05)
 \details{These two functions compute the power of a study from the given arguments
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'n.for.2means', 'n.for.2p'}
 \examples{

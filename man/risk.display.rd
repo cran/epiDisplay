@@ -114,7 +114,7 @@ when 'simplified=TRUE' is more reliable but less understandable.
 
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \value{'logistic.display', 'regress.display', 'clogit.display' and 
 'cox.display', each produces an output table. See 'details'.}

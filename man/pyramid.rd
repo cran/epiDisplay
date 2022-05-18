@@ -34,7 +34,7 @@ Other lower level graph commands should be only for adding a 'title'.
 'bar.label' when set as "auto", will be TRUE when 'percent="each"' or 'percent="total"'
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'barplot', 'levels', 'table'}
 \value{When the variables age and sex are input arguments, the return object includes age group variable and the output table. The argument 'decimal' controls only decimals of the output displayed on the console but not the returned table.}

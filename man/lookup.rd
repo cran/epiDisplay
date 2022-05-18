@@ -16,7 +16,7 @@ If either the variable or the look-up table is character, the result vector will
 For changing the levels of a factor variable, 'recode(vars, "old level", "new level")' or 'levels(var) <- ' instead.
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'replace', 'recode'}
 \examples{

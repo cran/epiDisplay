@@ -16,7 +16,7 @@ Internationalization of the title can be disabled by typing '.locale(FALSE)'. Th
 
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'Sys.setlocale', 'Sys.getlocale' and 'titleString'}
 \examples{

@@ -11,7 +11,7 @@ The member of this list can be removed by 'zap()' but not the set of the functio
 }
 
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'use', 'detach', 'ls', 'rm'}
 \examples{

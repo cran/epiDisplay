@@ -37,7 +37,7 @@ The specific method, ie. 'ci.binomial', 'ci.numeric' or 'ci.poisson', should be 
 }
 \value{'ci.binomial' and 'ci.poisson' return a data frame containing the number of events, the denominator and the incidence rate. 'ci.numeric' returns means and standard deviations. All of these are followed by the standard error and the confidence limit, the level of which is determined by 'alpha'}
 \author{Virasakdi Chongsuvivatwong
-       \email{ <cvirasak@medicine.psu.ac.th>}
+       \email{ cvirasak@gmail.com}
 }
 \seealso{'summ'}
 \examples{

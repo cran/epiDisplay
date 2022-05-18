@@ -51,7 +51,7 @@ Similar to the 'reliability' function, users can see the effect of removing each
   \item{items.reversed}{names of items reversed}
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'cronbach' from 'psy' package and 'reliability' from 'Rcmdr' package and 'tableStack' and 'unclassDataframe' of Epicalc}
 \examples{

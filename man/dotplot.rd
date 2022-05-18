@@ -33,7 +33,7 @@ Dotplot usually starts the first tick mark on the X-axis at 'xmin' (or min(x) if
 
 Setting proper 'xmin', 'xmax' and 'time.step' can improve the location of tick marks on the X-axis. The 'time.format' argument can then be given to further improve the graph. See the last two examples for a better understanding.}
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'summ', 'hist', 'seq.Date' and 'seq.POSIXt'}
 \examples{

@@ -13,7 +13,7 @@ shapiro.qqnorm (x, ...)
 To test a variable 'x' against the normal distribution, a qqnorm plot is integrated with the Shapiro-Wilk test to enhance interpretation.
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'shapiro.test', 'qqnorm', 'par'}
 \examples{

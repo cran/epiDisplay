@@ -10,7 +10,7 @@
        \item{...}{further arguments passed to or used by methods.}
 }
 \author{Virasakdi Chongsuvivatwong
-       \email{ <cvirasak@medicine.psu.ac.th>}
+       \email{ cvirasak@gmail.com}
 }
 \seealso{'n.for.cluster.2means'}
 \keyword{database}                                                                            

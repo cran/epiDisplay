@@ -29,7 +29,7 @@ Typing 'titleString()' without an argument displays the current contents of thes
 International users who want to add their specific locales and corresponding terminology to the look-up table or to suggest more appropriate terminology can contact the author.
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'setTitle'}
 \examples{

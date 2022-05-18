@@ -83,7 +83,7 @@ The test can be forced to parametric by setting 'iqr=NULL' and to non-parametric
 When 'by' is specified, an object of class 'tableStack' and 'table is returned. 
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'table', 'tab1', 'summ', 'alpha', 'unclassDataframe'}
 \examples{

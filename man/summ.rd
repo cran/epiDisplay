@@ -35,7 +35,7 @@ For single vectors, a sorted dot chart is also provided, if graph=TRUE
   \item{...}{additional graph parameters}
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'summary', 'use', 'des'}
 \examples{

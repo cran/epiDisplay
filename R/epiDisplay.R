@@ -1533,7 +1533,7 @@ colnames(table1) <- c("Coeff", paste("lower0", 100 - 100 * alpha,
         stop("Model not from linear regression")
     }}else{
     if(length(class(model))==1){
-    if (class(model) != "lm" ) {
+    if (!inherits(model,"lm" )) {
         stop("Model not from linear regression")
     }}}
     var.names <- attr(model$terms, "term.labels") # Independent vars
@@ -2317,7 +2317,7 @@ lsNoFunction <- function() {
 ### Ordinal odds ratio display
 ordinal.or.display <- function(ordinal.model, decimal=3, alpha=.05){
 model <- ordinal.model
-if(class(model) !="polr") stop("The model is not an ordinal logistic regression model")
+if(!inherits(model,"polr")) stop("The model is not an ordinal logistic regression model")
 s1 <- summary(model)
 t <- s1$coefficients[,3]
 df <- s1$df.residual
@@ -3169,7 +3169,7 @@ function(x, ...)
 if(!is.null(x$Each.category)){
 cat("Each category:", "\n")
 dataA <- x$Each.category
-if(class(dataA$std.error)!="numeric"){
+if(!inherits(dataA$std.error,"numeric")){
 print(data.frame(kappa=round(dataA$kappa,x$decimal),
                  std.error=".",
                  z = ".",
@@ -3187,7 +3187,7 @@ print(data.frame(kappa=round(dataA$kappa,x$decimal),
 cat("\n")
 cat("Overall:", "\n")
 dataB <- x$Overall
-if(class(dataA$std.error)!="numeric"){
+if(!inherits(dataA$std.error,"numeric")){
 print(data.frame(kappa=round(dataB$kappa, x$decimal),
                  std.error=".",
                  z = ".",
@@ -4986,7 +4986,7 @@ function (x, by, FUN = c("count", "sum", "mean", "median", "sd",
     se <- function(x1) {
         sd(x1, na.rm = TRUE)/sqrt(count(x1))
     }
-    if (length(FUN) == 1 & class(FUN) == "function") {
+    if (length(FUN) == 1 & inherits(FUN,"function")) {
         FUN <- as.character(substitute(FUN))
     }
     else {
@@ -5947,8 +5947,8 @@ function (vars, dataFrame, minlevel = "auto", maxlevel = "auto", count = TRUE, n
         }
     }
     for (i in selected) {
-        if ((class(dataFrame[, i]) == "integer" | class(dataFrame[, 
-            i]) == "numeric") & !is.null(by)) {
+        if ((inherits(dataFrame[, i],"integer") | inherits(dataFrame[, 
+            i],"numeric")) & !is.null(by)) {
             if (any(selected.to.factor == i)) {
                 dataFrame[, i] <- factor(dataFrame[, i])
             }
@@ -6173,7 +6173,7 @@ function (vars, dataFrame, minlevel = "auto", maxlevel = "auto", count = TRUE, n
             if (selected.iqr == "auto") {
                 selected.iqr <- NULL
                 for (i in 1:length(selected)) {
-                  if (class(dataFrame[, selected[i]]) == "difftime") {
+                  if (inherits(dataFrame[, selected[i]], "difftime")) {
                     dataFrame[, selected[i]] <- as.numeric(dataFrame[, 
                       selected[i]])
                   }
@@ -6531,13 +6531,13 @@ function (cont.var, by, dataFrame, iqr="auto", var.labels = TRUE,
     names(nl) <- names(dataFrame)
     Cont.var <- eval(substitute(cont.var), nl, parent.frame())# colu variable
     By.vars <- eval(substitute(by), nl, parent.frame()) # row variables
-    if (class(dataFrame[,Cont.var]) != "numeric" &
-        class(dataFrame[,Cont.var]) != "integer"){
+    if (!inherits(dataFrame[,Cont.var],"numeric") &
+        !inherits(dataFrame[,Cont.var], "integer")){
         stop(paste("The variable to compute statistics must be numeric or integer. ",
         "'",names(dataFrame)[Cont.var],"'", " is not.", sep=""))
         }
     for(i in By.vars){
-    if (class(dataFrame[,i]) != "factor"){
+    if (!inherits(dataFrame[,i],"factor")){
         stop(paste("All 'by' variables must be 'factor'. ",
         "'",names(dataFrame)[i],"'", " is not.", sep=""))
         }

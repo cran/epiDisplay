@@ -11,7 +11,7 @@ des(dataFrame)
 \details{The variable names will be listed with class and the description of each variable 
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'summ', 'label.var', 'subset' and 'keepData'}
 \examples{

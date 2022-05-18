@@ -16,7 +16,7 @@ mhor(..., mhtable = NULL, decimal=2, graph = TRUE, design = "cohort")
 'mhor' computes stratum-specific odds ratios and 95 percent confidence intervals and the Mantel-Haenszel odds ratio and chi-squared test is given as well as the homogeneity test. A stratified odds ratio graph is displayed. 
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'fisher.test', 'chisq.test'}
 \examples{

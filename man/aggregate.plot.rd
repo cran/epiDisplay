@@ -49,7 +49,7 @@ If 'legend = TRUE" (by default), a legend box is automatically drawn on the "top
 'cap.size' can be assigned to zero to remove the error bar cap.
 }
 \author{Virasakdi Chongsuvivatwong
-       \email{ <cvirasak@medicine.psu.ac.th>}
+       \email{ cvirasak@gmail.com}
 }
 \seealso{'aggregate.data.frame', 'aggregate.numeric', 'tapply'}
 \examples{

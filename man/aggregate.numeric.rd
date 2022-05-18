@@ -35,7 +35,7 @@ The default value of the argument 'length.warning' is TRUE. A condition where 'x
 'aggregate.plot' makes use of the above function in drawing bar plots with error lines computed from 'aggregate.numeric'. When 'FUN="mean"', the automactic choice of error values is "se". Users can also choose "sd" or "ci". 'alpha' is effective only for 'error="ci"'.  If 'FUN="median"', the error values are inter-quartile range.
 }
 \author{Virasakdi Chongsuvivatwong
-       \email{ <cvirasak@medicine.psu.ac.th>}
+       \email{ cvirasak@gmail.com}
 }
 \seealso{'aggregate', 'summ' and 'tapply'}
 \examples{

@@ -27,7 +27,7 @@ By default, 'var.labels=TRUE' in order to give nice output.
 } 
 \value{an object of class 'statStack' and 'table'} 
 \author{Virasakdi Chongsuvivatwong                                                          
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'tableStack'}
 \examples{

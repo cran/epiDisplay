@@ -71,7 +71,7 @@ Alternatively, a contingency table saved from 'make2x2' can be supplied as the '
 
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'fisher.test', 'chisq.test' and 'mhor'}
 \examples{

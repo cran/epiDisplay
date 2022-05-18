@@ -33,7 +33,7 @@ point and uses these for drawing the ROC curve.
 In both cases, the area under the curve is computed.
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'glm'}
 \examples{

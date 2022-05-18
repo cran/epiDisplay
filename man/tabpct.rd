@@ -41,7 +41,7 @@ Due to limitation of 'mosaicplot', certain graphic parameters such as 'cex.main'
 }
 \value{Tables of row and column percentage}
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'tab1', 'table', 'mosaicplot'}
 \examples{

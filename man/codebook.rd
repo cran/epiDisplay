@@ -12,7 +12,7 @@ codebook(dataFrame)
 
 While 'summ' produces summary statistics of both numeric and factor variables, 'codebook' gives summary statistics of all numeric variables and one-way tabulation of all factors of the data frame.}
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'use', 'summ', 'tab1' and 'tableStack'}
 \examples{

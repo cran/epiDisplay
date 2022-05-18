@@ -41,7 +41,7 @@ The argument 'gen.ind.vars' is effective only if x0 is factor.
 }
 \value{Output table}
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'tabpct', 'label.var', 'table', 'barplot', 'model.matrix'}
 \examples{

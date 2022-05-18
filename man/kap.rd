@@ -57,7 +57,7 @@ When 'wttable = "w2", the weights are given by \deqn{1 - (abs(i - j)/(1 - k))^2.
 
 }
 \author{Virasakdi Chongsuvivatwong
-	\email{ <cvirasak@medicine.psu.ac.th>}
+	\email{ cvirasak@gmail.com}
 }
 \seealso{'table'}
 \examples{
