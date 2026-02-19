@@ -95,7 +95,7 @@ omitted by the model due to collinearity. In such a case, users have to specify
 'crude' forced to FALSE. 
 
     3.1) The names of the independent variables contain a function such as 
-    'factor()' or any '\$' sign. 
+    'factor()' or any \'$' sign. 
 
     3.2) The levels of the factor variables contain any ':' sign.
 

@@ -11,7 +11,8 @@
 
 ## The below .locale is a local function. Thanks to Kurt Hornik for the trick.
 
-.locale <- local({ 
+
+.locale <- base::local({ 
   val <- FALSE  # All automatic graphs will initially have English titles
   function(new){
   if(!missing(new))
@@ -35,6 +36,9 @@
 .sd <- "s.d.  "
 .min <- "min.  "
 .max <- "max.  "
+
+
+
 
 codebook <- 
 function (dataFrame) 
